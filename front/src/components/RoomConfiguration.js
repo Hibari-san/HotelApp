@@ -17,9 +17,9 @@ const RoomConfiguration = () => {
 
     return (
         <div>
-            <h1>Configure Room</h1>
-            <p>Type: {room.type}</p>
-            <p>Capacity: {room.capacity}</p>
+            <h1>Opcje dodatkowe</h1>
+            <p>Typ: {room.type}</p>
+            <p>Miejsca: {room.capacity}</p>
 
             {room.type === "Quad" && (
                 <div>
@@ -29,7 +29,7 @@ const RoomConfiguration = () => {
                             checked={isDoubleBed}
                             onChange={(e) => setIsDoubleBed(e.target.checked)}
                         />
-                        Double Bed
+                        Podwojne Lozko
                     </label>
                 </div>
             )}
@@ -41,10 +41,10 @@ const RoomConfiguration = () => {
                         checked={hasBreakfast}
                         onChange={(e) => setHasBreakfast(e.target.checked)}
                     />
-                    Include Breakfast
+                    Sniadanie
                 </label>
             </div>
-            <button onClick={handleNext}>Next</button>
+            <button onClick={handleNext}>Dalej</button>
         </div>
     );
 };

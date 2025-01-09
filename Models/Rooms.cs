@@ -7,5 +7,6 @@
         public int Capacity { get; set; }
         public bool IsDoubleBed { get; set; } // For Quad rooms
         public bool HasBreakfast { get; set; }
+        public decimal Price { get; set; } // Cena pokoju
     }
 }

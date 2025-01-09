@@ -8,8 +8,10 @@ namespace HotelReservationAPI.Models
         public int RoomId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public bool IsDoubleBed { get; set; } // Dodano
-        public bool HasBreakfast { get; set; } // Dodano
+        public bool IsDoubleBed { get; set; }
+        public bool HasBreakfast { get; set; }
+        public decimal TotalCost { get; set; } // Całkowity koszt rezerwacji
     }
+
 }
 

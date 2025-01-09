@@ -25,7 +25,7 @@ const RoomSelection = () => {
 
     return (
         <div>
-            <h1>Select a Room</h1>
+            <h1>Wybierz daty</h1>
             <input
                 type="date"
                 value={startDate}
@@ -36,12 +36,12 @@ const RoomSelection = () => {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
             />
-            <button onClick={fetchAvailableRooms}>Check Availability</button>
+            <button onClick={fetchAvailableRooms}>Sprawdz Dostepnosc</button>
             <ul>
                 {rooms.map((room) => (
                     <li key={room.id}>
-                        {room.type} - Capacity: {room.capacity}{" "}
-                        <button onClick={() => handleSelectRoom(room)}>Select</button>
+                        {room.type} - miejsca: {room.capacity}{" "}
+                        <button onClick={() => handleSelectRoom(room)}>wybierz</button>
                     </li>
                 ))}
             </ul>

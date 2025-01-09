@@ -46,38 +46,48 @@ namespace HotelReservationAPI.Controllers
         {
             Console.WriteLine($"Received reservation: RoomId={reservation.RoomId}, StartDate={reservation.StartDate}, EndDate={reservation.EndDate}, IsDoubleBed={reservation.IsDoubleBed}, HasBreakfast={reservation.HasBreakfast}");
 
-            // Walidacja dat
             if (reservation.StartDate > reservation.EndDate)
             {
                 return BadRequest(new { message = "Start date must be before or equal to end date." });
             }
 
-            // Pobierz istniejące rezerwacje dla danego pokoju
-            var existingReservations = await _context.Reservations
-                .Where(r => r.RoomId == reservation.RoomId)
-                .ToListAsync();
-
-            Console.WriteLine("Existing reservations:");
-            foreach (var res in existingReservations)
+            // Pobierz pokój
+            var room = await _context.Rooms.FindAsync(reservation.RoomId);
+            if (room == null)
             {
-                Console.WriteLine($"RoomId={res.RoomId}, StartDate={res.StartDate}, EndDate={res.EndDate}");
+                return NotFound(new { message = "Room not found." });
             }
 
-            // Sprawdzenie kolizji dat
-            var isRoomAvailable = !existingReservations
-                .Any(r => r.StartDate <= reservation.EndDate && r.EndDate >= reservation.StartDate);
+            // Oblicz liczbę dni
+            int numberOfDays = (reservation.EndDate - reservation.StartDate).Days + 1;
+
+            // Oblicz całkowity koszt
+            decimal totalCost = numberOfDays * room.Price;
+            if (reservation.HasBreakfast)
+            {
+                totalCost += numberOfDays * 30; // Dodaj koszt śniadania
+            }
+
+            reservation.TotalCost = totalCost;
+
+            // Sprawdzenie dostępności pokoju
+            var isRoomAvailable = !await _context.Reservations
+                .AnyAsync(r => r.RoomId == reservation.RoomId &&
+                               r.StartDate <= reservation.EndDate &&
+                               r.EndDate >= reservation.StartDate);
 
             if (!isRoomAvailable)
             {
                 return BadRequest(new { message = "Room is not available for the selected dates." });
             }
 
+            // Dodanie rezerwacji do bazy
             try
             {
                 _context.Reservations.Add(reservation);
                 await _context.SaveChangesAsync();
-                Console.WriteLine("Reservation successfully added!");
-                return Ok(new { message = "Reservation confirmed." });
+                Console.WriteLine($"Reservation successfully added! Total cost: {reservation.TotalCost}");
+                return Ok(new { message = "Reservation confirmed.", totalCost = reservation.TotalCost });
             }
             catch (Exception ex)
             {
@@ -85,6 +95,7 @@ namespace HotelReservationAPI.Controllers
                 return StatusCode(500, new { message = "An error occurred while processing the reservation.", error = ex.Message });
             }
         }
+
 
 
 
