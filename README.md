@@ -15,3 +15,6 @@ Autorzy:
 <p>119196 Adam		Galuœ </p>
 <p>119237 Wiktor	Kmiecik </p>
 <p>120343 Kacper	Zieliñski </p>
+
+
+<p>Prezentacja dzia³aj¹cej aplikacji: <a href="https://youtu.be/GD_fwe2mT8w">youtube</a> </p>
