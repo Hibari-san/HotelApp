@@ -8,10 +8,10 @@ Przedmiot: TECHNOLOGIE INTERNETOWE
 Prowadz¹cy: mgr in¿. Andrzej Herman
 
 Autorzy:
-119252 Izabela	Hañczka
-119222 Kinga	Janiak
-119230 Patryk	Dominik
-119251 Patryk	Gr¹dzki 
-119196 Adam		Galuœ
-119237 Wiktor	Kmiecik
-120343 Kacper	Zieliñski
+<p>119252 Izabela	Hañczka </p>
+<p>119222 Kinga		Janiak </p>
+<p>119230 Patryk	Dominik </p>
+<p>119251 Patryk	Gr¹dzki </p>
+<p>119196 Adam		Galuœ </p>
+<p>119237 Wiktor	Kmiecik </p>
+<p>120343 Kacper	Zieliñski </p>
