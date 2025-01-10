@@ -1,11 +1,11 @@
-System sk³adania i wyszukiwania rezerwacji w hotelu oparty o webapi i frontend w React
+<p>System sk³adania i wyszukiwania rezerwacji w hotelu oparty o webapi i frontend w React</p>
 
-Spo³eczna Akademia Nauk 
-Informatyka 2024/2025
-Semestr 3
-Grupa 2
-Przedmiot: TECHNOLOGIE INTERNETOWE
-Prowadz¹cy: mgr in¿. Andrzej Herman
+<p>Spo³eczna Akademia Nauk </p>
+<p>Informatyka 2024/2025 </p>
+<p>Semestr 3 </p>
+<p>Grupa 2 </p>
+<p>Przedmiot: TECHNOLOGIE INTERNETOWE </p>
+<p>Prowadz¹cy: mgr in¿. Andrzej Herman </p>
 
 Autorzy:
 <p>119252 Izabela	Hañczka </p>
