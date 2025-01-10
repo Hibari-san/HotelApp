@@ -15,7 +15,7 @@ const RoomSelection = () => {
             });
             setRooms(response.data);
         } catch (error) {
-            console.error("Error fetching available rooms:", error);
+            console.error("błąd::", error);
         }
     };
 
@@ -36,7 +36,7 @@ const RoomSelection = () => {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
             />
-            <button onClick={fetchAvailableRooms}>Sprawdz Dostepnosc</button>
+            <button onClick={fetchAvailableRooms}>Sprawdź Dostępność</button>
             <ul>
                 {rooms.map((room) => (
                     <li key={room.id}>

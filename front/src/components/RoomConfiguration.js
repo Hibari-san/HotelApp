@@ -29,7 +29,7 @@ const RoomConfiguration = () => {
                             checked={isDoubleBed}
                             onChange={(e) => setIsDoubleBed(e.target.checked)}
                         />
-                        Podwojne Lozko
+                        Podwójne łóżko
                     </label>
                 </div>
             )}
@@ -41,7 +41,7 @@ const RoomConfiguration = () => {
                         checked={hasBreakfast}
                         onChange={(e) => setHasBreakfast(e.target.checked)}
                     />
-                    Sniadanie
+                    Śniadanie
                 </label>
             </div>
             <button onClick={handleNext}>Dalej</button>

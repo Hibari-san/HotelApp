@@ -1,22 +1,18 @@
-﻿import React from "react";
+﻿import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
 const ReservationSummary = () => {
     const location = useLocation();
     const { room, startDate, endDate, isDoubleBed, hasBreakfast } = location.state || {};
+    const [reservationNumber, setReservationNumber] = useState(null); // Przechowuje numer rezerwacji
+    const [error, setError] = useState(""); // Przechowuje błędy
 
-    // Oblicz liczbę dni
-    const numberOfDays = Math.max(1, Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)));
+    // Oblicz liczbę dni (zgodnie z backendem)
+    const numberOfDays = Math.max(1, (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24) + 1);
 
-    // Oblicz koszt pokoju
-    const roomCost = numberOfDays * room.price;
-
-    // Oblicz koszt śniadania (jeśli wybrano)
-    const breakfastCost = hasBreakfast ? numberOfDays * 30 : 0;
-
-    // Całkowity koszt
-    const totalCost = roomCost + breakfastCost;
+    // Oblicz całkowity koszt
+    const totalCost = (numberOfDays * room.price) + (hasBreakfast ? numberOfDays * 30 : 0);
 
     const handleConfirm = async () => {
         const reservation = {
@@ -27,26 +23,28 @@ const ReservationSummary = () => {
             hasBreakfast,
         };
 
-        console.log("Reservation being sent:", reservation);
+        console.log("Rezerwacja została wysłana:", reservation);
 
         try {
             const response = await axios.post("https://localhost:7029/api/reservations", reservation);
-            alert(`Rezerwacja potwierdzona`);
+            setReservationNumber(response.data.reservationNumber); // Zapisz numer rezerwacji
+            alert(`Rezerwacja potwierdzona! Koszt: ${response.data.totalCost} PLN`);
+            setError(""); // Wyczyść błędy
         } catch (error) {
             if (error.response && error.response.data) {
-                alert(`Nie udalo sie potiwerdzic rezerwacji: ${error.response.data.message}`);
+                setError(error.response.data.message); // Wyświetl błąd z backendu
             } else {
-                alert("nie udalo sie, zacznij jeszcze raz.");
+                setError("Nie udało się potwierdzić rezerwacji. Spróbuj ponownie.");
             }
-            console.error("Error confirming reservation:", error);
+            console.error("błąd przy potiwerdzaniu rezerwacji:", error);
         }
     };
 
     if (!room || !startDate || !endDate) {
         return (
             <div>
-                <h1>Error</h1>
-                <p>co poszo nie tak. zacznij ponownie.</p>
+                <h1>Błąd</h1>
+                <p>Brakuje danych wejściowych. Rozpocznij rezerwację od początku.</p>
             </div>
         );
     }
@@ -55,16 +53,28 @@ const ReservationSummary = () => {
         <div>
             <h1>Podsumowanie rezerwacji</h1>
             <p>Typ pokoju: {room.type}</p>
-            <p>miejsca: {room.capacity}</p>
-            <p>cena za dobe: {room.price} PLN</p>
-            <p>data od: {startDate}</p>
-            <p>data do: {endDate}</p>
-            <p>podwojne lozko: {isDoubleBed ? "TAK" : "NIE"}</p>
-            <p>Sniadanie: {hasBreakfast ? "TAK" : "NIE"}</p>
-            <p>Cena Pokoju: {roomCost} PLN</p>
-            <p>Cena Sniadan: {breakfastCost} PLN</p>
-            <h2>Razem: {totalCost} PLN</h2>
-            <button onClick={handleConfirm}>Potwierdz</button>
+            <p>Miejsca: {room.capacity}</p>
+            <p>Cena za dobę: {room.price} PLN</p>
+            <p>Data od: {startDate}</p>
+            <p>Data do: {endDate}</p>
+            <p>Podwójne łóżko: {isDoubleBed ? "TAK" : "NIE"}</p>
+            <p>Śniadanie: {hasBreakfast ? "TAK" : "NIE"}</p>
+            <h2>Razem do zapłaty: {totalCost.toFixed(2)} PLN</h2>
+
+            {error && <p style={{ color: "red" }}>{error}</p>}
+
+            {!reservationNumber ? (
+                <button onClick={handleConfirm}>Potwierdź</button>
+            ) : (
+                <div>
+                    <h2>Rezerwacja potwierdzona!</h2>
+                    <p>Numer rezerwacji: <strong>{reservationNumber}</strong></p>
+                </div>
+            )}
+
+            <p>
+                <a href="/search-reservation">Przejdź do wyszukiwarki rezerwacji</a>
+            </p>
         </div>
     );
 };

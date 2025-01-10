@@ -11,6 +11,8 @@ namespace HotelReservationAPI.Models
         public bool IsDoubleBed { get; set; }
         public bool HasBreakfast { get; set; }
         public decimal TotalCost { get; set; } // Całkowity koszt rezerwacji
+        public string ReservationNumber { get; set; } = Guid.NewGuid().ToString(); // Generuje unikalny numer rezerwacji
+
     }
 
 }
